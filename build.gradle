@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.ow2.asm:asm:9.7.1'
+    implementation 'org.ow2.asm:asm-util:9.7.1'
+    implementation 'net.sourceforge.plantuml:plantuml:1.2023.7'
+}
+
+application {
+    mainClass = 'umlparser.Main'
+}

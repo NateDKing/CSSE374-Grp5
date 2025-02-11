@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry output="bin/test" kind="src" path="src/test/java">
+		<attributes>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21/"/>
+	<classpathentry sourcepath="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.7.1/add7a8d74bcdb2be51a20d574b15c9e38f5ba65f/asm-util-9.7.1-sources.jar" kind="lib" path="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.7.1/9e23359b598ec6b74b23e53110dd5c577adf2243/asm-util-9.7.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.7.1/1b8917a7ab1defa8f99446d755286ca1c9d05116/asm-analysis-9.7.1-sources.jar" kind="lib" path="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.7.1/f97a3b319f0ed6a8cd944dc79060d3912a28985f/asm-analysis-9.7.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.7.1/d51ed23b9b4d0e222d0a0cacaf6296e8a009d81b/asm-tree-9.7.1-sources.jar" kind="lib" path="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.7.1/3a53139787663b139de76b627fca0084ab60d32c/asm-tree-9.7.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7.1/eed93b6cd5ba28fe09a6a11d08f62a3c0d4817ec/asm-9.7.1-sources.jar" kind="lib" path="/Users/nateking/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/9.7.1/f0ed132a49244b042cd0e15702ab9f2ce3cc8436/asm-9.7.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/nateking/.gradle/caches/modules-2/files-2.1/net.sourceforge.plantuml/plantuml/1.2023.7/5bc2065312dc5f4d85b432ad368dbceeb6090bea/plantuml-1.2023.7-sources.jar" kind="lib" path="/Users/nateking/.gradle/caches/modules-2/files-2.1/net.sourceforge.plantuml/plantuml/1.2023.7/965a8af1c218bd26e5deeda8c7c6d4df1353c5f0/plantuml-1.2023.7.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+</classpath>
