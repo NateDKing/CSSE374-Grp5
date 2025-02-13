@@ -6,14 +6,17 @@ import java.util.List;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class ClassNode extends ClassVisitor {
     private String className;
+    private String superName;
+    private String classType;
     private List<FieldNode> fields = new ArrayList<>();
     private List<MethodNode> methods = new ArrayList<>();
-    private String[] interfaces;
-    private String superName;
+    private List<String> interfaces = new ArrayList<>();
+
     
     public ClassNode(int api) {
         super(api);
@@ -26,6 +29,7 @@ public class ClassNode extends ClassVisitor {
         setInterfaces(interfaces);
         String newSuperName = superName.toString().replace('/', '.');
         setSuperName(newSuperName);
+        setClassType(access);
 
         super.visit(version, access, name, signature, superName, interfaces);
     }
@@ -63,10 +67,13 @@ public class ClassNode extends ClassVisitor {
     }
     
     public void setInterfaces(String[] interfaces) {
-        this.interfaces = interfaces;
+    	for (String interfac : interfaces)
+		if (interfac.substring(0,9).equals("umlparser")) {
+			this.interfaces.add(interfac.substring(10));
+		}
     }
     
-    public String[] getInterfaces() {
+    public List<String> getInterfaces() {
         return interfaces;
     }
     
@@ -78,6 +85,20 @@ public class ClassNode extends ClassVisitor {
 
     public String getSuperName() {
         return superName;
+    }
+    
+    public void setClassType(int opcode) {
+    	if ((opcode & Opcodes.ACC_INTERFACE) != 0) {
+    		this.classType = "interface";
+    	} else if ((opcode & Opcodes.ACC_ABSTRACT) != 0) {
+    		this.classType = "abstract";
+    	} else {
+    		this.classType = "class";
+    	}
+    }
+
+    public String getClassType() {
+        return classType;
     }
 
     public void addField(FieldNode field) {
@@ -95,4 +116,35 @@ public class ClassNode extends ClassVisitor {
     public List<MethodNode> getMethods() {
         return methods;
     }
+    
+    public boolean getSingleton() {
+    	// Singleton (Dogs)
+		// - private static Dog dog
+    	boolean singletonSelfInstance = false;
+    	for (FieldNode fieldNode : getFields()) {
+//    		boolean goodAccess = methodNode.getAccess().equals("private");
+    		String f = "";
+    	}
+    	
+    	
+    	String f = "";
+    	
+		// - private Dog() {}
+//    	boolean singletonSelfInstance = false;
+//    	for (MethodNode methodNode : getMethods()) {
+//    		boolean goodAccess = methodNode.getAccess().equals("private");
+//    		boolean goodStatic = methodNode.getAccess().equals("private");
+//    		boolean goodAccess = methodNode.getAccess().equals("private");
+//    	}
+    	
+    	
+    	
+    	
+		// - All Methods: public static
+    	
+    	
+    	
+		
+		return false;
+	}
 }

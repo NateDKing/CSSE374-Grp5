@@ -1,6 +1,7 @@
 package umlparser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.objectweb.asm.Opcodes;
@@ -20,7 +21,9 @@ public class PlantUMLGenerator {
 	public StringBuilder generateClassUML(ClassNode classInfo) {
 		StringBuilder sb = new StringBuilder();
 
-        sb.append("class ").append(classInfo.getClassName()).append(" {\n");
+        sb.append(classInfo.getClassType() + " ").append(classInfo.getClassName()).append(" {\n");
+        
+        boolean singleton = classInfo.getSingleton();
         
         for (FieldNode field : classInfo.getFields()) {
             String visibilitySymbol = getVisibilitySymbol(field.getAccess());
@@ -54,9 +57,73 @@ public class PlantUMLGenerator {
               .append("\n");
         }
         
-        sb.append("}\n");
+        sb.append("}\n\n");
         
         return sb;
+		
+	}
+	
+	public StringBuilder generateDependenciesUML(ClassNode classInfo) {
+		StringBuilder sb = new StringBuilder();
+		
+        // - Extends (superName)
+		// Pawn --|> Piece
+		if (classInfo.getSuperName() != null) {
+			sb.append(classInfo.getClassName()).append(" --|>")
+			   .append(classInfo.getSuperName())
+			   .append("\n");
+		}
+		
+		// - Implements (interfaces)
+		// - Pawn ..|> xxx
+		for (String interfac : classInfo.getInterfaces()) {
+			sb.append(classInfo.getClassName()).append(" ..|>")
+			   .append(interfac)
+			   .append("\n");
+		}
+		
+		List<String> addedClasses = new ArrayList<>();
+		
+		for (FieldNode field : classInfo.getFields()) {
+			//add []
+			if (field.getType().length() < 10) {
+				continue;
+			}
+				
+			if (! field.getType().substring(0,9).equals("umlparser")) {
+				continue;
+			}
+			
+			String toClassName = field.getType().substring(10).replaceAll("[^a-zA-Z]", "");
+			
+			if (addedClasses.contains(toClassName)) {
+				continue;
+			}
+			
+			String[] keyWords = {"[","<","List"};
+			String quantity = "1";
+			if (Arrays.stream(keyWords).anyMatch(field.getType()::contains)) {
+				quantity = "*";
+			}
+			// Board --> "*" Square
+			//	String cleaned = input.replaceAll("[^a-zA-Z]", "");
+			sb.append(classInfo.getClassName()).append(" --> \"")
+			   								   .append(quantity)
+			   								   .append("\" ")
+			   	.append(toClassName)
+			   	.append("\n");
+			addedClasses.add(toClassName);
+		}
+		
+		
+        // Singleton (Dogs)
+		// - private static Dog dog
+		// - private Dog() {}
+		// - All Methods: public static
+		
+        // Decerator
+		
+		return sb;
 		
 	}
 	
@@ -69,20 +136,21 @@ public class PlantUMLGenerator {
         	sb.append(generateClassUML(classNode));
         }
         
-        // Lines
-        // - Extends
+        for (ClassNode classNode : classNodes) {
+        	sb.append(generateDependenciesUML(classNode));
+        }
         
         sb.append("@enduml\n");
         
         return sb.toString();
     }
     
-    private String getVisibilitySymbol(int access) {
-        if ((access & Opcodes.ACC_PUBLIC) != 0) {
+    private String getVisibilitySymbol(String access) {
+        if (access.equals("public")) {
             return "+";
-        } else if ((access & Opcodes.ACC_PROTECTED) != 0) {
+        } else if (access.equals("protected")) {
             return "#";
-        } else if ((access & Opcodes.ACC_PRIVATE) != 0) {
+        } else if (access.equals("private")) {
             return "-";
         }
         return "~";
