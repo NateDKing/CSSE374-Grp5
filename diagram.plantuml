@@ -1,16 +1,7 @@
 @startuml
 class umlparser.ExampleClass {
-  - name : java.lang.String
-  - returnType : java.lang.String
-  - parameterTypes : java.util.List
-  - access : int
   - foo : int
   - bar : java.lang.String
-  + <init>(java.lang.String, java.lang.String, java.util.List, int) : void
-  + getName() : java.lang.String
-  + getReturnType() : java.lang.String
-  + getParameterTypes() : java.util.List
-  + getAccess() : int
   + <init>(int, java.lang.String) : void
   + getFoo() : int
   + setFoo(int) : void

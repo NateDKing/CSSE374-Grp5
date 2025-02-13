@@ -15,16 +15,15 @@ import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 
-public class Main {
+public class JCUT {
     public static void main(String[] args) {
         try {
             List<ClassReader> classes = getClassesInPackage();
-//            ClassReader cr = new ClassReader(new FileInputStream("build/classes/java/test/umlparser/ExampleClass.class"));
             for (ClassReader cr : classes) {
-            	ClassInfo classInfo = new ClassInfo();
+            	ClassNode classInfo = new ClassNode();
             	UMLClassVisitor cv = new UMLClassVisitor(Opcodes.ASM9, classInfo);
             	cr.accept(cv, 0);
-            	String uml = UMLDiagramGenerator.generateUML(classInfo);
+            	String uml = PlantUMLGenerator.generateUML(classInfo);
             	
             	try (FileOutputStream fos = new FileOutputStream("diagram.plantuml")) {
                     fos.write(uml.getBytes());
@@ -71,25 +70,12 @@ public class Main {
     	
     	
     	List<ClassReader> classes = new ArrayList<>();
-//        String[] classPathEntries = System.getProperty("java.class.path").split(
-//                System.getProperty("path.separator")
-//        );
-
-//        String name;
         for (String classpathEntry : classPathEntries) {
             try {
                 String base = new String(packageName + File.separatorChar + classpathEntry);
                 if (base.endsWith(".class")) {
                 	classes.add(new ClassReader(new FileInputStream(base)));
                 }
-//                for (File file : base.listFiles()) {
-//                    name = file.getName();
-//                    if (name.endsWith(".class")) {
-//                    	new ClassReader(new FileInputStream(base
-//                        name = name.substring(0, name.length() - 6);
-//                        classes.add(Class.forName(packageName + "." + name));
-//                    }
-//                }
             } catch (Exception ex) {
                 // Silence is gold
             }

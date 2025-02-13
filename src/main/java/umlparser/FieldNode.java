@@ -1,11 +1,11 @@
 package umlparser;
 
-public class FieldInfo {
+public class FieldNode {
     private String name;
     private String type;
     private int access;
 
-    public FieldInfo(String name, String type, int access) {
+    public FieldNode(String name, String type, int access) {
         this.name = name;
         this.type = type;
         this.access = access;

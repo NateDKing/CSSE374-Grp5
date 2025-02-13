@@ -9,9 +9,9 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 public class UMLClassVisitor extends ClassVisitor {
-    private ClassInfo classInfo;
+    private ClassNode classInfo;
 
-    public UMLClassVisitor(int api, ClassInfo classInfo) {
+    public UMLClassVisitor(int api, ClassNode classInfo) {
         super(api);
         this.classInfo = classInfo;
     }
@@ -27,7 +27,7 @@ public class UMLClassVisitor extends ClassVisitor {
     @Override
     public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
         String fieldType = Type.getType(descriptor).getClassName();
-        FieldInfo f = new FieldInfo(name, fieldType, access);
+        FieldNode f = new FieldNode(name, fieldType, access);
         classInfo.addField(f);
         return super.visitField(access, name, descriptor, signature, value);
     }
@@ -42,7 +42,7 @@ public class UMLClassVisitor extends ClassVisitor {
             paramTypeNames.add(t.getClassName());
         }
 
-        MethodInfo m = new MethodInfo(name, returnType, paramTypeNames, access);
+        MethodNode m = new MethodNode(name, returnType, paramTypeNames, access);
         classInfo.addMethod(m);
 
         return super.visitMethod(access, name, descriptor, signature, exceptions);

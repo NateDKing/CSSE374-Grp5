@@ -3,10 +3,10 @@ package umlparser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassInfo {
+public class ClassNode {
     private String className;
-    private List<FieldInfo> fields = new ArrayList<>();
-    private List<MethodInfo> methods = new ArrayList<>();
+    private List<FieldNode> fields = new ArrayList<>();
+    private List<MethodNode> methods = new ArrayList<>();
 
     public void setClassName(String className) {
         this.className = className;
@@ -16,19 +16,19 @@ public class ClassInfo {
         return className;
     }
 
-    public void addField(FieldInfo field) {
+    public void addField(FieldNode field) {
         fields.add(field);
     }
 
-    public List<FieldInfo> getFields() {
+    public List<FieldNode> getFields() {
         return fields;
     }
 
-    public void addMethod(MethodInfo method) {
+    public void addMethod(MethodNode method) {
         methods.add(method);
     }
 
-    public List<MethodInfo> getMethods() {
+    public List<MethodNode> getMethods() {
         return methods;
     }
 }

@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 
-public class UMLDiagramGenerator {
+public class PlantUMLGenerator {
     
-    public static String generateUML(ClassInfo classInfo) {
+    public static String generateUML(ClassNode classInfo) {
         StringBuilder sb = new StringBuilder();
         
         sb.append("@startuml\n");
         
         sb.append("class ").append(classInfo.getClassName()).append(" {\n");
         
-        for (FieldInfo field : classInfo.getFields()) {
+        for (FieldNode field : classInfo.getFields()) {
             String visibilitySymbol = getVisibilitySymbol(field.getAccess());
             sb.append("  ")
               .append(visibilitySymbol)
@@ -24,7 +24,7 @@ public class UMLDiagramGenerator {
               .append("\n");
         }
         
-        for (MethodInfo method : classInfo.getMethods()) {
+        for (MethodNode method : classInfo.getMethods()) {
             String visibilitySymbol = getVisibilitySymbol(method.getAccess());
             sb.append("  ")
               .append(visibilitySymbol)
