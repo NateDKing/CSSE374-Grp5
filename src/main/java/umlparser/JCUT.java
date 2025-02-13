@@ -30,27 +30,29 @@ public class JCUT {
             .map(Path::toFile)
             .forEach(File::delete);
             
+            PlantUMLGenerator plantUMLGenerator = new PlantUMLGenerator();
+            
             for (ClassReader cr : classes) {
             	ClassNode classNode = new ClassNode(Opcodes.ASM9);
-//            	UMLClassVisitor cv = new UMLClassVisitor(Opcodes.ASM9, classInfo);
             	cr.accept(classNode, 0);
-            	String uml = PlantUMLGenerator.generateUML(classNode);
+            	plantUMLGenerator.addClassNode(classNode);
             	
-            	String outputPath = "outputFiles/" + classNode.getClassName();
-            	outputPath = outputPath.replaceAll("/", File.separator);
-            	
-            	try (FileOutputStream fos = new FileOutputStream(outputPath + ".plantuml")) {
-                    fos.write(uml.getBytes());
-                }
-
-                System.out.println("Writing UML diagram...");
-                System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
-                generateSVG(uml, outputPath + ".svg");
-                System.out.println("Wrote UML diagram to " + outputPath + ".svg");
             }
-            
-            
-            
+            	
+            String uml = plantUMLGenerator.generateUML();
+            	
+        	String outputPath = "outputFiles/plantUML";
+        	outputPath = outputPath.replaceAll("/", File.separator);
+        	
+        	try (FileOutputStream fos = new FileOutputStream(outputPath + ".plantuml")) {
+                fos.write(uml.getBytes());
+            }
+
+            System.out.println("Writing UML diagram...");
+            System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
+            generateSVG(uml, outputPath + ".svg");
+            System.out.println("Wrote UML diagram to " + outputPath + ".svg");
+        
         } catch (IOException e) {
             e.printStackTrace();
         }

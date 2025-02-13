@@ -1,16 +1,25 @@
 package umlparser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 
 public class PlantUMLGenerator {
     
-    public static String generateUML(ClassNode classInfo) {
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append("@startuml\n");
-        
+	private ArrayList<ClassNode> classNodes;
+	
+	public PlantUMLGenerator() {
+		classNodes = new ArrayList<ClassNode>();
+    }
+	
+	public void addClassNode(ClassNode classInfo) {
+		classNodes.add(classInfo);
+	}
+	
+	public StringBuilder generateClassUML(ClassNode classInfo) {
+		StringBuilder sb = new StringBuilder();
+
         sb.append("class ").append(classInfo.getClassName()).append(" {\n");
         
         for (FieldNode field : classInfo.getFields()) {
@@ -46,12 +55,29 @@ public class PlantUMLGenerator {
         }
         
         sb.append("}\n");
+        
+        return sb;
+		
+	}
+	
+    public String generateUML() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("@startuml\n");
+        
+        for (ClassNode classNode : classNodes) {
+        	sb.append(generateClassUML(classNode));
+        }
+        
+        // Lines
+        // - Extends
+        
         sb.append("@enduml\n");
         
         return sb.toString();
     }
     
-    private static String getVisibilitySymbol(int access) {
+    private String getVisibilitySymbol(int access) {
         if ((access & Opcodes.ACC_PUBLIC) != 0) {
             return "+";
         } else if ((access & Opcodes.ACC_PROTECTED) != 0) {

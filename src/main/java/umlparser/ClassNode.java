@@ -12,9 +12,9 @@ public class ClassNode extends ClassVisitor {
     private String className;
     private List<FieldNode> fields = new ArrayList<>();
     private List<MethodNode> methods = new ArrayList<>();
+    private String[] interfaces;
+    private String superName;
     
-    private ClassNode classInfo;
-
     public ClassNode(int api) {
         super(api);
     }
@@ -23,6 +23,9 @@ public class ClassNode extends ClassVisitor {
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         String className = name.replace('/', '.');
         setClassName(className);
+        setInterfaces(interfaces);
+        String newSuperName = superName.toString().replace('/', '.');
+        setSuperName(newSuperName);
 
         super.visit(version, access, name, signature, superName, interfaces);
     }
@@ -52,11 +55,29 @@ public class ClassNode extends ClassVisitor {
     }
 
     public void setClassName(String className) {
-        this.className = className;
+        this.className = className.substring(10);;
     }
 
     public String getClassName() {
         return className;
+    }
+    
+    public void setInterfaces(String[] interfaces) {
+        this.interfaces = interfaces;
+    }
+    
+    public String[] getInterfaces() {
+        return interfaces;
+    }
+    
+    public void setSuperName(String superName) {
+    	if (superName.substring(0,9).equals("umlparser")) {
+    		this.superName = superName.substring(10);
+    	}
+    }
+
+    public String getSuperName() {
+        return superName;
     }
 
     public void addField(FieldNode field) {
