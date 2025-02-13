@@ -17,3 +17,16 @@ dependencies {
 application {
     mainClass = 'umlparser.Main'
 }
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['CSSE371_HW3/src/main/java', 'CSSE371_HW3/src/test/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['CSSE371_HW3/src/test/java']
+        }
+    }
+}
