@@ -20,18 +20,21 @@ public class JCUT {
         try {
             List<ClassReader> classes = getClassesInPackage();
             for (ClassReader cr : classes) {
-            	ClassNode classInfo = new ClassNode();
-            	UMLClassVisitor cv = new UMLClassVisitor(Opcodes.ASM9, classInfo);
-            	cr.accept(cv, 0);
-            	String uml = PlantUMLGenerator.generateUML(classInfo);
+            	ClassNode classNode = new ClassNode(Opcodes.ASM9);
+//            	UMLClassVisitor cv = new UMLClassVisitor(Opcodes.ASM9, classInfo);
+            	cr.accept(classNode, 0);
+            	String uml = PlantUMLGenerator.generateUML(classNode);
             	
-            	try (FileOutputStream fos = new FileOutputStream("diagram.plantuml")) {
+            	String outputPath = "outputFiles/" + classNode.getClassName();
+            	outputPath = outputPath.replaceAll("/", File.separator);
+            	
+            	try (FileOutputStream fos = new FileOutputStream(outputPath + ".plantuml")) {
                     fos.write(uml.getBytes());
                 }
 
                 System.out.println("Writing UML diagram...");
                 System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
-                generateSVG(uml, "diagram.svg");
+                generateSVG(uml, outputPath + ".svg");
                 System.out.println("Wrote UML diagram to diagram.svg");
             }
             
