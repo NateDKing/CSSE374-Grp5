@@ -18,23 +18,25 @@ import net.sourceforge.plantuml.SourceStringReader;
 public class Main {
     public static void main(String[] args) {
         try {
-            ClassInfo classInfo = new ClassInfo();
             List<ClassReader> classes = getClassesInPackage();
 //            ClassReader cr = new ClassReader(new FileInputStream("build/classes/java/test/umlparser/ExampleClass.class"));
-            UMLClassVisitor cv = new UMLClassVisitor(Opcodes.ASM9, classInfo);
             for (ClassReader cr : classes) {
+            	ClassInfo classInfo = new ClassInfo();
+            	UMLClassVisitor cv = new UMLClassVisitor(Opcodes.ASM9, classInfo);
             	cr.accept(cv, 0);
+            	String uml = UMLDiagramGenerator.generateUML(classInfo);
+            	
+            	try (FileOutputStream fos = new FileOutputStream("diagram.plantuml")) {
+                    fos.write(uml.getBytes());
+                }
+
+                System.out.println("Writing UML diagram...");
+                System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
+                generateSVG(uml, "diagram.svg");
+                System.out.println("Wrote UML diagram to diagram.svg");
             }
             
-            String uml = UMLDiagramGenerator.generateUML(classInfo);
-            try (FileOutputStream fos = new FileOutputStream("diagram.plantuml")) {
-                fos.write(uml.getBytes());
-            }
-
-            System.out.println("Writing UML diagram...");
-            System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
-            generateSVG(uml, "diagram.svg");
-            System.out.println("Wrote UML diagram to diagram.svg");
+            
             
         } catch (IOException e) {
             e.printStackTrace();
