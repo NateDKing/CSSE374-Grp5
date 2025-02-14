@@ -20,10 +20,22 @@ public class PlantUMLGenerator {
 	
 	public StringBuilder generateClassUML(ClassNode classInfo) {
 		StringBuilder sb = new StringBuilder();
-
-        sb.append(classInfo.getClassType() + " ").append(classInfo.getClassName()).append(" {\n");
+		
+		boolean isSingleton = classInfo.getSingleton();
+		
+		if (isSingleton) {
+			String labelName = classInfo.getClassName() + "Label";
+			sb.append("label \" \" as " + labelName + "\n");
+			sb.append(labelName + " -[#blue]-> " + classInfo.getClassName() + " : \"Singleton\"\n");
+		}
+		
+        sb.append(classInfo.getClassType() + " ").append(classInfo.getClassName());
+        if (isSingleton) {
+        	sb.append(" <<Singleton>>");
+        }
+        sb.append(" {\n");
         
-        boolean singleton = classInfo.getSingleton();
+        
         
         for (FieldNode field : classInfo.getFields()) {
             String visibilitySymbol = getVisibilitySymbol(field.getAccess());
@@ -131,6 +143,7 @@ public class PlantUMLGenerator {
         StringBuilder sb = new StringBuilder();
         
         sb.append("@startuml\n");
+        sb.append("allowmixing\n");
         
         for (ClassNode classNode : classNodes) {
         	sb.append(generateClassUML(classNode));

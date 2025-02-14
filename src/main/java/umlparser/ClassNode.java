@@ -120,31 +120,42 @@ public class ClassNode extends ClassVisitor {
     public boolean getSingleton() {
     	// Singleton (Dogs)
 		// - private static Dog dog
-    	boolean singletonSelfInstance = false;
+    	boolean isSelfInstance = false;
     	for (FieldNode fieldNode : getFields()) {
-//    		boolean goodAccess = methodNode.getAccess().equals("private");
-    		String f = "";
+    		boolean isAccess = fieldNode.getAccess().equals("private");
+    		boolean isStatic = fieldNode.getIsStatic();
+    		boolean isName   = fieldNode.getType().equals(className);
+    		if (isAccess && isStatic && isName) {
+    			isSelfInstance = true;
+    			break;
+    		}
     	}
     	
-    	
-    	String f = "";
-    	
-		// - private Dog() {}
-//    	boolean singletonSelfInstance = false;
-//    	for (MethodNode methodNode : getMethods()) {
-//    		boolean goodAccess = methodNode.getAccess().equals("private");
-//    		boolean goodStatic = methodNode.getAccess().equals("private");
-//    		boolean goodAccess = methodNode.getAccess().equals("private");
-//    	}
-    	
-    	
-    	
+		// - private Logger() {}
+    	boolean isConstructor = false;
+    	for (MethodNode methodNode : getMethods()) {
+    		boolean isAccess = methodNode.getAccess().equals("private");
+    		boolean isName = methodNode.getName().equals("<init>");
+    		if (isAccess && isName) {
+    			isConstructor = true;
+    			break;
+    		}
+    	}
     	
 		// - All Methods: public static
+    	boolean isPubStat = true;
+    	for (MethodNode methodNode : getMethods()) {
+    		if (methodNode.getName().equals("<init>")) {
+    			continue;
+    		}
+    		boolean isAccess = methodNode.getAccess().equals("public");
+    		boolean isStatic = methodNode.getIsStatic();
+    		if (!isAccess || !isStatic) {
+    			isPubStat = false;
+    			break;
+    		}
+    	}
     	
-    	
-    	
-		
-		return false;
+		return isSelfInstance && isConstructor && isPubStat;
 	}
 }

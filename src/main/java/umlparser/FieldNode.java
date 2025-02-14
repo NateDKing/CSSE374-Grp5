@@ -10,7 +10,7 @@ public class FieldNode {
 
     public FieldNode(String name, String type, int access) {
         this.name = name;
-        this.type = type;
+        this.type = type.replace("umlparser.", "");
         
         if ((access & Opcodes.ACC_PRIVATE) != 0) {
     		this.access = "private";

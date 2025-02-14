@@ -1,0 +1,13 @@
+package umlparser;
+
+// Generated with ChatGPT, for purposes for testing.
+
+public abstract class Beverage {
+    protected String description = "Unknown Beverage";
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public abstract double cost();
+}
