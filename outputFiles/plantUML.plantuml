@@ -7,23 +7,21 @@ abstract Beverage {
   + cost() : double
 }
 
-class Soy {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
+label " " as CondimentDecoratorLabel
+CondimentDecoratorLabel -[#red]-> CondimentDecorator : "Decorator"
+abstract CondimentDecorator <<Decorator>> {
+  + <init>() : void
   + getDescription() : java.lang.String
+}
+
+class Espresso {
+  + <init>() : void
   + cost() : double
 }
 
-abstract CondimentDecorator {
+class HouseBlend {
   + <init>() : void
-  + getDescription() : java.lang.String
-}
-
-class OrderManager {
-  - orders : java.util.List
-  + <init>() : void
-  + addOrder(umlparser.Order) : void
-  + processOrders() : void
+  + cost() : double
 }
 
 class JCUTApplication {
@@ -40,6 +38,24 @@ class Logger <<Singleton>> {
   + log(java.lang.String) : void
 }
 
+label " " as MilkLabel
+MilkLabel -[#red]-> Milk : "Decorator"
+class Milk <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+label " " as MochaLabel
+MochaLabel -[#red]-> Mocha : "Decorator"
+class Mocha <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
 class Order {
   - orderId : int
   - beverage : Beverage
@@ -50,34 +66,26 @@ class Order {
   + getDescription() : java.lang.String
 }
 
-class Milk {
+class OrderManager {
+  - orders : java.util.List
+  + <init>() : void
+  + addOrder(umlparser.Order) : void
+  + processOrders() : void
+}
+
+label " " as SoyLabel
+SoyLabel -[#red]-> Soy : "Decorator"
+class Soy <<Decorator>> {
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
   + getDescription() : java.lang.String
   + cost() : double
 }
 
-class Mocha {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
-  + getDescription() : java.lang.String
-  + cost() : double
-}
-
-class Espresso {
-  + <init>() : void
-  + cost() : double
-}
-
-class HouseBlend {
-  + <init>() : void
-  + cost() : double
-}
-
-Soy --|>CondimentDecorator
 CondimentDecorator --|>Beverage
-Milk --|>CondimentDecorator
-Mocha --|>CondimentDecorator
 Espresso --|>Beverage
 HouseBlend --|>Beverage
+Milk --|>CondimentDecorator
+Mocha --|>CondimentDecorator
+Soy --|>CondimentDecorator
 @enduml

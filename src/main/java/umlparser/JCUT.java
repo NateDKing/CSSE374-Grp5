@@ -43,9 +43,6 @@ public class JCUT {
             	if (classNode.getDecorator()) {
             		decorators.add(classNode.getClassName());
             	}
-            	System.out.println(classNode.getClassName().toString());
-            	System.out.println(classNode.getDecorator());
-            	System.out.println("----------------");
             	plantUMLGenerator.addClassNode(classNode);
             }
             	
@@ -61,7 +58,7 @@ public class JCUT {
             }
 
             System.out.println("Writing UML diagram...");
-            System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
+ //           System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
             generateSVG(uml, outputPath + ".svg");
             System.out.println("Wrote UML diagram to " + outputPath + ".svg");
         
@@ -84,6 +81,8 @@ public class JCUT {
 	            fos.write(svg.getBytes("UTF-8"));
 	        }
 	    }
+	    
+	    
     }
     
     /*
