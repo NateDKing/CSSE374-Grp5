@@ -63,7 +63,9 @@ public class JCUT {
             }
 
             System.out.println("Writing UML diagram...");
- //           System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
+            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
+            }
             generateSVG(uml, outputPath + ".svg");
             System.out.println("Wrote UML diagram to " + outputPath + ".svg");
         
