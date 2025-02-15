@@ -94,13 +94,13 @@ public class PlantUMLGenerator {
 
 		for (FieldNode field : classInfo.getFields()) {
 			// add []
-			if (field.getType().length() < 10) {
-				continue;
-			}
+//			if (field.getType().length() < 10) {
+//				continue;
+//			}
 
-			if (!field.getType().substring(0, 9).equals("umlparser")) {
-				continue;
-			}
+//			if (!field.getType().substring(0, 9).equals("umlparser")) {
+//				continue;
+//			}
 
 			String toClassName = field.getType().substring(10).replaceAll("[^a-zA-Z]", "");
 

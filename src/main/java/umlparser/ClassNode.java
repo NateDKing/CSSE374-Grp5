@@ -37,7 +37,17 @@ public class ClassNode extends ClassVisitor {
 
     @Override
     public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-        String fieldType = Type.getType(descriptor).getClassName();
+    	String fieldType;
+    	if (signature != null) {
+        	fieldType = Type.getType(signature).getClassName();
+        	fieldType = fieldType.replace("<L", "<").replace(";>", ">");
+        	fieldType = fieldType.replace("umlparser.", "");
+        	String[] parts = fieldType.split("<");
+        	parts[0] = parts[0].split("\\.")[parts[0].split("\\.").length - 1];
+        	fieldType = parts[0] + "<" + parts[1];
+    	} else {
+    		fieldType = Type.getType(descriptor).getClassName();
+    	}
         FieldNode f = new FieldNode(name, fieldType, access);
         addField(f);
         return super.visitField(access, name, descriptor, signature, value);
