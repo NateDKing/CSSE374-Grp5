@@ -13,6 +13,7 @@ public class ClassNode extends ClassVisitor {
     private String className;
     private String superName;
     private String classType;
+    private boolean isDecorator = false;
     private List<FieldNode> fields = new ArrayList<>();
     private List<MethodNode> methods = new ArrayList<>();
     private List<String> interfaces = new ArrayList<>();
@@ -30,7 +31,7 @@ public class ClassNode extends ClassVisitor {
         String newSuperName = superName.toString().replace('/', '.');
         setSuperName(newSuperName);
         setClassType(access);
-
+        isDecorator();
         super.visit(version, access, name, signature, superName, interfaces);
     }
 
@@ -82,7 +83,7 @@ public class ClassNode extends ClassVisitor {
     		this.superName = superName.substring(10);
     	}
     }
-
+    
     public String getSuperName() {
         return superName;
     }
@@ -158,4 +159,22 @@ public class ClassNode extends ClassVisitor {
     	
 		return isSelfInstance && isConstructor && isPubStat;
 	}
+    
+    public void isDecorator() {
+    	
+    	if (this.superName != null && this.classType == "abstract") {
+    		this.isDecorator = true;
+    	} else {
+    		this.isDecorator = false;
+    	}
+    }
+
+    public boolean getDecorator() {
+    	return this.isDecorator;
+    }
+ 
+    
+    public void setDecorator(Boolean b) {
+    	this.isDecorator = b;
+    }
 }

@@ -32,17 +32,29 @@ public class JCUT {
             
             PlantUMLGenerator plantUMLGenerator = new PlantUMLGenerator();
             
+            ArrayList<String> decorators = new ArrayList<>();
+            
             for (ClassReader cr : classes) {
             	ClassNode classNode = new ClassNode(Opcodes.ASM9);
             	cr.accept(classNode, 0);
+            	if (decorators.contains(classNode.getSuperName())) {
+            		classNode.setDecorator(true);
+            	}
+            	if (classNode.getDecorator()) {
+            		decorators.add(classNode.getClassName());
+            	}
+            	System.out.println(classNode.getClassName().toString());
+            	System.out.println(classNode.getDecorator());
+            	System.out.println("----------------");
             	plantUMLGenerator.addClassNode(classNode);
-            	
             }
             	
             String uml = plantUMLGenerator.generateUML();
             	
         	String outputPath = "outputFiles/plantUML";
-        	outputPath = outputPath.replaceAll("/", File.separator);
+        	
+        	// Switched to replace from replaceAll
+        	outputPath = outputPath.replace('/', File.separatorChar);
         	
         	try (FileOutputStream fos = new FileOutputStream(outputPath + ".plantuml")) {
                 fos.write(uml.getBytes());
@@ -79,7 +91,9 @@ public class JCUT {
      */
     public static final List<ClassReader> getClassesInPackage() {
     	String packageName = "bin/test/umlparser";
-    	packageName = packageName.replaceAll("/", File.separator);
+    	
+    	// Switched to replace from replaceAll
+    	packageName = packageName.replace('/', File.separatorChar);
         
     	File folder = new File(packageName);
     	String[] classPathEntries = folder.list();
