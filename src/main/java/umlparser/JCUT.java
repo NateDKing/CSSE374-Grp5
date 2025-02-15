@@ -33,17 +33,22 @@ public class JCUT {
             PlantUMLGenerator plantUMLGenerator = new PlantUMLGenerator();
             
             ArrayList<String> decorators = new ArrayList<>();
+            ArrayList<ClassNode> classNodes = new ArrayList<>();
             
             for (ClassReader cr : classes) {
             	ClassNode classNode = new ClassNode(Opcodes.ASM9);
             	cr.accept(classNode, 0);
-            	if (decorators.contains(classNode.getSuperName())) {
-            		classNode.setDecorator(true);
-            	}
             	if (classNode.getDecorator()) {
             		decorators.add(classNode.getClassName());
             	}
-            	plantUMLGenerator.addClassNode(classNode);
+            	classNodes.add(classNode);
+            }
+            
+            for (ClassNode cn: classNodes) {
+            	if (decorators.contains(cn.getSuperName())) {
+            		cn.setDecorator(true);
+            	}
+            	plantUMLGenerator.addClassNode(cn);
             }
             	
             String uml = plantUMLGenerator.generateUML();
