@@ -1,5 +1,9 @@
 @startuml
 allowmixing
+skinparam class {
+BackgroundColor<<Decorator>> Salmon
+BackgroundColor<<Singleton>> LightBlue
+}
 abstract Beverage {
   # description : java.lang.String
   + <init>() : void

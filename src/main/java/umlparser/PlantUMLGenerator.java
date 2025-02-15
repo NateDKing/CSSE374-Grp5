@@ -136,6 +136,10 @@ public class PlantUMLGenerator {
 
 		sb.append("@startuml\n");
 		sb.append("allowmixing\n");
+		sb.append("skinparam class {\n");
+		sb.append("BackgroundColor<<Decorator>> Salmon\n");
+		sb.append("BackgroundColor<<Singleton>> LightBlue\n");
+		sb.append("}\n");
 
 		for (ClassNode classNode : classNodes) {
 			sb.append(generateClassUML(classNode));
