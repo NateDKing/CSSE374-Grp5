@@ -27,16 +27,16 @@ public class PlantUMLGenerator {
 		if (isSingleton) {
 			String labelName = classInfo.getClassName() + "Label";
 			sb.append("label \" \" as " + labelName + "\n");
-			sb.append(labelName + " -[#blue]-> " + classInfo.getClassName() + " : \"Singleton\"\n");
+			sb.append(labelName + " -[#blue]-> " + cleanName(classInfo.getClassName()) + " : \"Singleton\"\n");
 		}
 
 		if (isDecorator) {
 			String labelName = classInfo.getClassName() + "Label";
 			sb.append("label \" \" as " + labelName + "\n");
-			sb.append(labelName + " -[#red]-> " + classInfo.getClassName() + " : \"Decorator\"\n");
+			sb.append(labelName + " -[#red]-> " + cleanName(classInfo.getClassName()) + " : \"Decorator\"\n");
 		}
 
-		sb.append(classInfo.getClassType() + " ").append(classInfo.getClassName());
+		sb.append(classInfo.getClassType() + " ").append(cleanName(classInfo.getClassName()));
 		
 		if (isSingleton) {
 			if (!classInfo.singletonAbuse()) {
@@ -56,13 +56,13 @@ public class PlantUMLGenerator {
 
 		for (FieldNode field : classInfo.getFields()) {
 			String visibilitySymbol = getVisibilitySymbol(field.getAccess());
-			sb.append("  ").append(visibilitySymbol).append(" ").append(field.getName()).append(" : ")
-					.append(field.getType()).append("\n");
+			sb.append("  ").append(visibilitySymbol).append(" ").append(cleanName(field.getName())).append(" : ")
+					.append(cleanName(field.getType())).append("\n");
 		}
 
 		for (MethodNode method : classInfo.getMethods()) {
 			String visibilitySymbol = getVisibilitySymbol(method.getAccess());
-			sb.append("  ").append(visibilitySymbol).append(" ").append(method.getName()).append("(");
+			sb.append("  ").append(visibilitySymbol).append(" ").append(cleanName(method.getName())).append("(");
 
 			List<String> params = method.getParameterTypes();
 			for (int i = 0; i < params.size(); i++) {
@@ -87,19 +87,20 @@ public class PlantUMLGenerator {
 		// - Extends (superName)
 		// Pawn --|> Piece
 		if (classInfo.getSuperName() != null) {
-			sb.append(classInfo.getClassName()).append(" --|>").append(classInfo.getSuperName()).append("\n");
+			sb.append(cleanName(classInfo.getClassName())).append(" --|>").append(cleanName(classInfo.getSuperName())).append("\n");
 		}
 
 		// - Implements (interfaces)
 		// - Pawn ..|> xxx
 		for (String interfac : classInfo.getInterfaces()) {
-			sb.append(classInfo.getClassName()).append(" ..|>").append(interfac).append("\n");
+			sb.append(cleanName(classInfo.getClassName())).append(" ..|>").append(interfac).append("\n");
 		}
 
 		List<String> addedClasses = new ArrayList<>();
 
 		for (FieldNode field : classInfo.getFields()) {
 			// add []
+<<<<<<< HEAD
 			if (field.getType().length() < 10) {
 				continue;
 			}
@@ -111,6 +112,22 @@ public class PlantUMLGenerator {
 			String toClassName = field.getType().substring(10).replaceAll("[^a-zA-Z]", "");
 
 			if (addedClasses.contains(toClassName)) {
+=======
+			if (!field.getType().contains("umlparser.")) {
+				continue;
+			}
+			
+			String fieldClass = field.getType();
+			
+			if (fieldClass.contains("<") && fieldClass.contains(">")) {
+				fieldClass = fieldClass.substring(fieldClass.indexOf('<') + 1, fieldClass.indexOf('>'));
+			}
+			
+			fieldClass = fieldClass.replace("umlparser.", "");
+//			fieldClass = fieldClass.replaceAll("[^a-zA-Z]", "");
+			
+			if (addedClasses.contains(fieldClass)) {
+>>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
 				continue;
 			}
 
@@ -121,9 +138,9 @@ public class PlantUMLGenerator {
 			}
 			// Board --> "*" Square
 			// String cleaned = input.replaceAll("[^a-zA-Z]", "");
-			sb.append(classInfo.getClassName()).append(" --> \"").append(quantity).append("\" ").append(toClassName)
+			sb.append(cleanName(classInfo.getClassName())).append(" --> \"").append(quantity).append("\" ").append(cleanName(fieldClass))
 					.append("\n");
-			addedClasses.add(toClassName);
+			addedClasses.add(fieldClass);
 		}
 
 		// Singleton (Dogs)
@@ -161,6 +178,10 @@ public class PlantUMLGenerator {
 		sb.append("@enduml\n");
 
 		return sb.toString();
+	}
+	
+	private String cleanName(String name) {
+		return name.split("\\.")[name.split("\\.").length - 1];
 	}
 
 	private String getVisibilitySymbol(String access) {
