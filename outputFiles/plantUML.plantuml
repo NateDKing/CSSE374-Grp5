@@ -1,0 +1,101 @@
+@startuml
+allowmixing
+skinparam class {
+BackgroundColor<<Decorator>> Salmon
+BackgroundColor<<Singleton>> LightBlue
+}
+abstract Beverage {
+  # description : String
+  + <init>() : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+label " " as umlparser.SoyLabel
+umlparser.SoyLabel -[#red]-> Soy : "Decorator"
+class Soy <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+label " " as umlparser.CondimentDecoratorLabel
+umlparser.CondimentDecoratorLabel -[#red]-> CondimentDecorator : "Decorator"
+abstract CondimentDecorator <<Decorator>> {
+  + <init>() : void
+  + getDescription() : java.lang.String
+}
+
+class OrderManager {
+  - orders : Order>
+  + <init>() : void
+  + addOrder(umlparser.Order) : void
+  + processOrders() : void
+}
+
+class JCUTApplication {
+  + <init>() : void
+  + main(java.lang.String[]) : void
+}
+
+label " " as umlparser.LoggerLabel
+umlparser.LoggerLabel -[#blue]-> Logger : "Singleton"
+class Logger <<Singleton>> {
+  - instance : Logger
+  - <init>() : void
+  + getInstance() : umlparser.Logger
+  + log(java.lang.String) : void
+}
+
+class Order {
+  - orderId : int
+  - beverage : Beverage
+  + <init>(int, umlparser.Beverage) : void
+  + getOrderId() : int
+  + getBeverage() : umlparser.Beverage
+  + getCost() : double
+  + getDescription() : java.lang.String
+}
+
+label " " as umlparser.MilkLabel
+umlparser.MilkLabel -[#red]-> Milk : "Decorator"
+class Milk <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+label " " as umlparser.MochaLabel
+umlparser.MochaLabel -[#red]-> Mocha : "Decorator"
+class Mocha <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+class Espresso {
+  + <init>() : void
+  + cost() : double
+}
+
+class HouseBlend {
+  + <init>() : void
+  + cost() : double
+}
+
+Soy --|>CondimentDecorator
+Soy --> "1" Beverage
+CondimentDecorator --|>Beverage
+OrderManager --> "*" Order
+Logger --> "1" Logger
+Order --> "1" Beverage
+Milk --|>CondimentDecorator
+Milk --> "1" Beverage
+Mocha --|>CondimentDecorator
+Mocha --> "1" Beverage
+Espresso --|>Beverage
+HouseBlend --|>Beverage
+@enduml

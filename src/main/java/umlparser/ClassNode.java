@@ -41,7 +41,6 @@ public class ClassNode extends ClassVisitor {
     	if (signature != null) {
         	fieldType = Type.getType(signature).getClassName();
         	fieldType = fieldType.replace("<L", "<").replace(";>", ">");
-        	fieldType = fieldType.replace("umlparser.", "");
         	String[] parts = fieldType.split("<");
         	parts[0] = parts[0].split("\\.")[parts[0].split("\\.").length - 1];
         	fieldType = parts[0] + "<" + parts[1];
@@ -70,7 +69,7 @@ public class ClassNode extends ClassVisitor {
     }
 
     public void setClassName(String className) {
-        this.className = className.substring(10);;
+        this.className = className;
     }
 
     public String getClassName() {
@@ -90,7 +89,7 @@ public class ClassNode extends ClassVisitor {
     
     public void setSuperName(String superName) {
     	if (superName.substring(0,9).equals("umlparser")) {
-    		this.superName = superName.substring(10);
+    		this.superName = superName;
     	}
     }
     
