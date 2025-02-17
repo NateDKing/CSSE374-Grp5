@@ -3,45 +3,24 @@ allowmixing
 skinparam class {
 BackgroundColor<<Decorator>> Salmon
 BackgroundColor<<Singleton>> LightBlue
-<<<<<<< HEAD
 BackgroundColor<<Singleton Abuse>> LightBlue
 BorderColor<<Singleton Abuse>> Orange
 BorderThickness<<Singleton Abuse>> 3
 }
 abstract Beverage {
-  # description : java.lang.String
-=======
-}
-abstract Beverage {
   # description : String
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
   + <init>() : void
-  + getDescription() : java.lang.String
-  + cost() : double
-}
-
-<<<<<<< HEAD
-label " " as CondimentDecoratorLabel
-CondimentDecoratorLabel -[#red]-> CondimentDecorator : "Decorator"
-=======
-label " " as umlparser.SoyLabel
-umlparser.SoyLabel -[#red]-> Soy : "Decorator"
-class Soy <<Decorator>> {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
   + getDescription() : java.lang.String
   + cost() : double
 }
 
 label " " as umlparser.CondimentDecoratorLabel
 umlparser.CondimentDecoratorLabel -[#red]-> CondimentDecorator : "Decorator"
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
 abstract CondimentDecorator <<Decorator>> {
   + <init>() : void
   + getDescription() : java.lang.String
 }
 
-<<<<<<< HEAD
 class Espresso {
   + <init>() : void
   + cost() : double
@@ -50,13 +29,6 @@ class Espresso {
 class HouseBlend {
   + <init>() : void
   + cost() : double
-=======
-class OrderManager {
-  - orders : Order>
-  + <init>() : void
-  + addOrder(umlparser.Order) : void
-  + processOrders() : void
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
 }
 
 class JCUTApplication {
@@ -64,13 +36,8 @@ class JCUTApplication {
   + main(java.lang.String[]) : void
 }
 
-<<<<<<< HEAD
-label " " as LoggerLabel
-LoggerLabel -[#blue]-> Logger : "Singleton"
-=======
 label " " as umlparser.LoggerLabel
 umlparser.LoggerLabel -[#blue]-> Logger : "Singleton"
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
 class Logger <<Singleton>> {
   - instance : Logger
   - <init>() : void
@@ -78,9 +45,8 @@ class Logger <<Singleton>> {
   + log(java.lang.String) : void
 }
 
-<<<<<<< HEAD
-label " " as MilkLabel
-MilkLabel -[#red]-> Milk : "Decorator"
+label " " as umlparser.MilkLabel
+umlparser.MilkLabel -[#red]-> Milk : "Decorator"
 class Milk <<Decorator>> {
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
@@ -88,8 +54,8 @@ class Milk <<Decorator>> {
   + cost() : double
 }
 
-label " " as MochaLabel
-MochaLabel -[#red]-> Mocha : "Decorator"
+label " " as umlparser.MochaLabel
+umlparser.MochaLabel -[#red]-> Mocha : "Decorator"
 class Mocha <<Decorator>> {
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
@@ -97,8 +63,6 @@ class Mocha <<Decorator>> {
   + cost() : double
 }
 
-=======
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
 class Order {
   - orderId : int
   - beverage : Beverage
@@ -109,68 +73,32 @@ class Order {
   + getDescription() : java.lang.String
 }
 
-<<<<<<< HEAD
 class OrderManager {
-  - orders : List<Order>
+  - orders : Order>
   + <init>() : void
   + addOrder(umlparser.Order) : void
   + processOrders() : void
 }
 
-label " " as SoyLabel
-SoyLabel -[#red]-> Soy : "Decorator"
+label " " as umlparser.SoyLabel
+umlparser.SoyLabel -[#red]-> Soy : "Decorator"
 class Soy <<Decorator>> {
-=======
-label " " as umlparser.MilkLabel
-umlparser.MilkLabel -[#red]-> Milk : "Decorator"
-class Milk <<Decorator>> {
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
   + getDescription() : java.lang.String
   + cost() : double
 }
 
-<<<<<<< HEAD
-Beverage --> "1" String
 CondimentDecorator --|>Beverage
 Espresso --|>Beverage
 HouseBlend --|>Beverage
-Milk --|>CondimentDecorator
-Mocha --|>CondimentDecorator
-OrderManager --> "*" 
-Soy --|>CondimentDecorator
-=======
-label " " as umlparser.MochaLabel
-umlparser.MochaLabel -[#red]-> Mocha : "Decorator"
-class Mocha <<Decorator>> {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
-  + getDescription() : java.lang.String
-  + cost() : double
-}
-
-class Espresso {
-  + <init>() : void
-  + cost() : double
-}
-
-class HouseBlend {
-  + <init>() : void
-  + cost() : double
-}
-
-Soy --|>CondimentDecorator
-Soy --> "1" Beverage
-CondimentDecorator --|>Beverage
-OrderManager --> "*" Order
 Logger --> "1" Logger
-Order --> "1" Beverage
 Milk --|>CondimentDecorator
 Milk --> "1" Beverage
 Mocha --|>CondimentDecorator
 Mocha --> "1" Beverage
-Espresso --|>Beverage
-HouseBlend --|>Beverage
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
+Order --> "1" Beverage
+OrderManager --> "*" Order
+Soy --|>CondimentDecorator
+Soy --> "1" Beverage
 @enduml

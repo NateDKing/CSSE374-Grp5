@@ -37,17 +37,17 @@ public class PlantUMLGenerator {
 		}
 
 		sb.append(classInfo.getClassType() + " ").append(cleanName(classInfo.getClassName()));
-		
+
 		if (isSingleton) {
 			if (!classInfo.singletonAbuse()) {
 				System.out.println("Singleton Abuse");
 				sb.append(" <<Singleton Abuse>>");
 			} else {
 				System.out.println("Singleton");
-			sb.append(" <<Singleton>>");
+				sb.append(" <<Singleton>>");
 			}
 		}
-		
+
 		if (isDecorator) {
 			sb.append(" <<Decorator>>");
 		}
@@ -100,7 +100,6 @@ public class PlantUMLGenerator {
 
 		for (FieldNode field : classInfo.getFields()) {
 			// add []
-<<<<<<< HEAD
 			if (field.getType().length() < 10) {
 				continue;
 			}
@@ -111,8 +110,9 @@ public class PlantUMLGenerator {
 
 			String toClassName = field.getType().substring(10).replaceAll("[^a-zA-Z]", "");
 
-			if (addedClasses.contains(toClassName)) {
-=======
+//			if (addedClasses.contains(toClassName)) {
+//				
+//			}
 			if (!field.getType().contains("umlparser.")) {
 				continue;
 			}
@@ -127,7 +127,6 @@ public class PlantUMLGenerator {
 //			fieldClass = fieldClass.replaceAll("[^a-zA-Z]", "");
 			
 			if (addedClasses.contains(fieldClass)) {
->>>>>>> 12c54d18121485e620b410ea578df751da8c2f01
 				continue;
 			}
 
@@ -179,7 +178,7 @@ public class PlantUMLGenerator {
 
 		return sb.toString();
 	}
-	
+
 	private String cleanName(String name) {
 		return name.split("\\.")[name.split("\\.").length - 1];
 	}
