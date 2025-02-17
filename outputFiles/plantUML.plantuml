@@ -1,0 +1,100 @@
+@startuml
+allowmixing
+skinparam class {
+BackgroundColor<<Decorator>> Salmon
+BackgroundColor<<Singleton>> LightBlue
+BackgroundColor<<Singleton Abuse>> LightBlue
+BorderColor<<Singleton Abuse>> Orange
+BorderThickness<<Singleton Abuse>> 3
+}
+abstract Beverage {
+  # description : java.lang.String
+  + <init>() : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+label " " as CondimentDecoratorLabel
+CondimentDecoratorLabel -[#red]-> CondimentDecorator : "Decorator"
+abstract CondimentDecorator <<Decorator>> {
+  + <init>() : void
+  + getDescription() : java.lang.String
+}
+
+class Espresso {
+  + <init>() : void
+  + cost() : double
+}
+
+class HouseBlend {
+  + <init>() : void
+  + cost() : double
+}
+
+class JCUTApplication {
+  + <init>() : void
+  + main(java.lang.String[]) : void
+}
+
+label " " as LoggerLabel
+LoggerLabel -[#blue]-> Logger : "Singleton"
+class Logger <<Singleton>> {
+  - instance : Logger
+  - <init>() : void
+  + getInstance() : umlparser.Logger
+  + log(java.lang.String) : void
+}
+
+label " " as MilkLabel
+MilkLabel -[#red]-> Milk : "Decorator"
+class Milk <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+label " " as MochaLabel
+MochaLabel -[#red]-> Mocha : "Decorator"
+class Mocha <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+class Order {
+  - orderId : int
+  - beverage : Beverage
+  + <init>(int, umlparser.Beverage) : void
+  + getOrderId() : int
+  + getBeverage() : umlparser.Beverage
+  + getCost() : double
+  + getDescription() : java.lang.String
+}
+
+class OrderManager {
+  - orders : List<Order>
+  + <init>() : void
+  + addOrder(umlparser.Order) : void
+  + processOrders() : void
+}
+
+label " " as SoyLabel
+SoyLabel -[#red]-> Soy : "Decorator"
+class Soy <<Decorator>> {
+  - beverage : Beverage
+  + <init>(umlparser.Beverage) : void
+  + getDescription() : java.lang.String
+  + cost() : double
+}
+
+Beverage --> "1" String
+CondimentDecorator --|>Beverage
+Espresso --|>Beverage
+HouseBlend --|>Beverage
+Milk --|>CondimentDecorator
+Mocha --|>CondimentDecorator
+OrderManager --> "*" 
+Soy --|>CondimentDecorator
+@enduml

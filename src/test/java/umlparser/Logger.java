@@ -4,6 +4,7 @@ package umlparser;
 
 public class Logger {
     private static Logger instance;
+ //   private int num;
     
     // Private constructor prevents external instantiation.
     private Logger() {}

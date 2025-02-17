@@ -39,7 +39,13 @@ public class PlantUMLGenerator {
 		sb.append(classInfo.getClassType() + " ").append(classInfo.getClassName());
 		
 		if (isSingleton) {
+			if (!classInfo.singletonAbuse()) {
+				System.out.println("Singleton Abuse");
+				sb.append(" <<Singleton Abuse>>");
+			} else {
+				System.out.println("Singleton");
 			sb.append(" <<Singleton>>");
+			}
 		}
 		
 		if (isDecorator) {
@@ -94,9 +100,9 @@ public class PlantUMLGenerator {
 
 		for (FieldNode field : classInfo.getFields()) {
 			// add []
-//			if (field.getType().length() < 10) {
-//				continue;
-//			}
+			if (field.getType().length() < 10) {
+				continue;
+			}
 
 //			if (!field.getType().substring(0, 9).equals("umlparser")) {
 //				continue;
@@ -139,6 +145,9 @@ public class PlantUMLGenerator {
 		sb.append("skinparam class {\n");
 		sb.append("BackgroundColor<<Decorator>> Salmon\n");
 		sb.append("BackgroundColor<<Singleton>> LightBlue\n");
+		sb.append("BackgroundColor<<Singleton Abuse>> LightBlue\n");
+		sb.append("BorderColor<<Singleton Abuse>> Orange\n");
+		sb.append("BorderThickness<<Singleton Abuse>> 3\n");
 		sb.append("}\n");
 
 		for (ClassNode classNode : classNodes) {

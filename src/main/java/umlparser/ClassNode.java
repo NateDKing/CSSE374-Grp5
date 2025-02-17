@@ -170,6 +170,16 @@ public class ClassNode extends ClassVisitor {
 		return isSelfInstance && isConstructor && isPubStat;
 	}
     
+    public boolean singletonAbuse() {
+    	if (fields.size() == 1) {
+    		System.out.println("Good");
+    		return true;
+    	} else {
+    		System.out.println("Bad");
+    		return false;
+    	}
+    }
+    
     public void isDecorator() {
     	
     	if (this.superName != null && this.classType == "abstract") {
