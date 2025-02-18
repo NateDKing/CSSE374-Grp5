@@ -9,7 +9,8 @@ import org.objectweb.asm.Opcodes;
 public class PlantUMLGenerator {
 
 	private ArrayList<ClassNode> classNodes;
-
+	private double classes = 0;
+	
 	public PlantUMLGenerator() {
 		classNodes = new ArrayList<ClassNode>();
 	}
@@ -40,10 +41,8 @@ public class PlantUMLGenerator {
 
 		if (isSingleton) {
 			if (!classInfo.singletonAbuse()) {
-				System.out.println("Singleton Abuse");
 				sb.append(" <<Singleton Abuse>>");
 			} else {
-				System.out.println("Singleton");
 				sb.append(" <<Singleton>>");
 			}
 		}
@@ -83,7 +82,7 @@ public class PlantUMLGenerator {
 
 	public StringBuilder generateDependenciesUML(ClassNode classInfo) {
 		StringBuilder sb = new StringBuilder();
-		int dep = 0;
+		double dep = 0;
 		// - Extends (superName)
 		// Pawn --|> Piece
 		if (classInfo.getSuperName() != null) {
@@ -144,6 +143,10 @@ public class PlantUMLGenerator {
 			dep++;
 			addedClasses.add(fieldClass);
 		}
+		Double depDec = (double) (dep/classes);
+		if (depDec >= 0.2) {
+			sb.append("note top of ").append(cleanName(classInfo.getClassName())).append(": OVERDEPENDENT\n");
+		}
 
 		// Singleton (Dogs)
 		// - private static Dog dog
@@ -175,6 +178,7 @@ public class PlantUMLGenerator {
 
 		for (ClassNode classNode : classNodes) {
 			sb.append(generateClassUML(classNode));
+			this.classes++;
 		}
 
 		for (ClassNode classNode : classNodes) {
