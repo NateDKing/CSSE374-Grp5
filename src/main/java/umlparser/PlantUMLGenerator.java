@@ -10,6 +10,8 @@ public class PlantUMLGenerator {
 
 	private ArrayList<ClassNode> classNodes;
 	private double classes = 0;
+	private int singletons = 0;
+	private boolean singleAbused = false;
 	
 	public PlantUMLGenerator() {
 		classNodes = new ArrayList<ClassNode>();
@@ -26,6 +28,7 @@ public class PlantUMLGenerator {
 		boolean isDecorator = classInfo.getDecorator();
 
 		if (isSingleton) {
+			singletons++;
 			String labelName = cleanName(classInfo.getClassName()) + "Label";
 			sb.append("label \" \" as " + labelName + "\n");
 			sb.append(labelName + " -[#red]-> " + cleanName(classInfo.getClassName()) + " : \"Singleton\"\n");
@@ -147,14 +150,17 @@ public class PlantUMLGenerator {
 		if (depDec >= 0.2) {
 			sb.append("note top of ").append(cleanName(classInfo.getClassName())).append(": OVERDEPENDENT\n");
 		}
+		
+		if(singletons/classes >= 0.25 && !getSingleAbused()) {
+			setSingleAbused(true);
+			sb.append("label \"TOO MANY SINGLETONS\" as abuseLabel\n");
+		}
 
 		// Singleton (Dogs)
 		// - private static Dog dog
 		// - private Dog() {}
 		// - All Methods: public static
 
-		// Decerator
-		
 		return sb;
 
 	}
@@ -203,5 +209,13 @@ public class PlantUMLGenerator {
 			return "-";
 		}
 		return "~";
+	}
+	
+	private boolean getSingleAbused() {
+		return this.singleAbused;
+	}
+	
+	private void setSingleAbused(boolean b) {
+		this.singleAbused = b;
 	}
 }
