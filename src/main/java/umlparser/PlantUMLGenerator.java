@@ -83,17 +83,19 @@ public class PlantUMLGenerator {
 
 	public StringBuilder generateDependenciesUML(ClassNode classInfo) {
 		StringBuilder sb = new StringBuilder();
-
+		int dep = 0;
 		// - Extends (superName)
 		// Pawn --|> Piece
 		if (classInfo.getSuperName() != null) {
 			sb.append(cleanName(classInfo.getClassName())).append(" --|>").append(cleanName(classInfo.getSuperName())).append("\n");
+			dep++;
 		}
 
 		// - Implements (interfaces)
 		// - Pawn ..|> xxx
 		for (String interfac : classInfo.getInterfaces()) {
 			sb.append(cleanName(classInfo.getClassName())).append(" ..|>").append(interfac).append("\n");
+			dep++;
 		}
 
 		List<String> addedClasses = new ArrayList<>();
@@ -139,6 +141,7 @@ public class PlantUMLGenerator {
 			// String cleaned = input.replaceAll("[^a-zA-Z]", "");
 			sb.append(cleanName(classInfo.getClassName())).append(" --> \"").append(quantity).append("\" ").append(cleanName(fieldClass))
 					.append("\n");
+			dep++;
 			addedClasses.add(fieldClass);
 		}
 
@@ -148,7 +151,7 @@ public class PlantUMLGenerator {
 		// - All Methods: public static
 
 		// Decerator
-
+		
 		return sb;
 
 	}
