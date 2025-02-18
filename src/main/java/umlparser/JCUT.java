@@ -1,5 +1,6 @@
 package umlparser;
 
+import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,8 +67,13 @@ public class JCUT {
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                 System.setProperty("GRAPHVIZ_DOT", "/opt/homebrew/bin/dot");
             }
+            String svgPath = outputPath + ".svg";
             generateSVG(uml, outputPath + ".svg");
+            File svg = new File(svgPath);
+            
             System.out.println("Wrote UML diagram to " + outputPath + ".svg");
+            
+            Desktop.getDesktop().browse(svg.toURI());
         
         } catch (IOException e) {
             e.printStackTrace();

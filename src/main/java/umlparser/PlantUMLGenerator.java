@@ -27,13 +27,13 @@ public class PlantUMLGenerator {
 		if (isSingleton) {
 			String labelName = cleanName(classInfo.getClassName()) + "Label";
 			sb.append("label \" \" as " + labelName + "\n");
-			sb.append(labelName + " -[#blue]-> " + cleanName(classInfo.getClassName()) + " : \"Singleton\"\n");
+			sb.append(labelName + " -[#red]-> " + cleanName(classInfo.getClassName()) + " : \"Singleton\"\n");
 		}
 
 		if (isDecorator) {
 			String labelName = cleanName(classInfo.getClassName()) + "Label";
 			sb.append("label \" \" as " + labelName + "\n");
-			sb.append(labelName + " -[#red]-> " + cleanName(classInfo.getClassName()) + " : \"Decorator\"\n");
+			sb.append(labelName + " -[#blue]-> " + cleanName(classInfo.getClassName()) + " : \"Decorator\"\n");
 		}
 
 		sb.append(classInfo.getClassType() + " ").append(cleanName(classInfo.getClassName()));
@@ -159,11 +159,15 @@ public class PlantUMLGenerator {
 		sb.append("@startuml\n");
 		sb.append("allowmixing\n");
 		sb.append("skinparam class {\n");
-		sb.append("BackgroundColor<<Decorator>> Salmon\n");
-		sb.append("BackgroundColor<<Singleton>> LightBlue\n");
-		sb.append("BackgroundColor<<Singleton Abuse>> LightBlue\n");
-		sb.append("BorderColor<<Singleton Abuse>> Orange\n");
-		sb.append("BorderThickness<<Singleton Abuse>> 3\n");
+		sb.append("BackgroundColor<<Decorator>> LightBlue\n");
+		sb.append("BackgroundColor<<Singleton>> Salmon\n");
+		sb.append("BackgroundColor<<Singleton Abuse>> Salmon\n");
+		sb.append("BorderColor<<Singleton Abuse>> DarkRed\n");
+		sb.append("BorderColor<<Singleton>> Red\n");
+		sb.append("BorderColor<<Decorator>> Blue\n");
+		sb.append("BorderThickness<<Singleton Abuse>> 5\n");
+		sb.append("BorderThickness<<Singleton>> 1\n");
+		sb.append("BorderThickness<<Decorator>> 1\n");
 		sb.append("}\n");
 
 		for (ClassNode classNode : classNodes) {

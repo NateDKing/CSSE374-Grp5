@@ -1,24 +1,28 @@
 @startuml
 allowmixing
 skinparam class {
-BackgroundColor<<Decorator>> Salmon
-BackgroundColor<<Singleton>> LightBlue
-BackgroundColor<<Singleton Abuse>> LightBlue
-BorderColor<<Singleton Abuse>> Orange
-BorderThickness<<Singleton Abuse>> 3
+BackgroundColor<<Decorator>> LightBlue
+BackgroundColor<<Singleton>> Salmon
+BackgroundColor<<Singleton Abuse>> Salmon
+BorderColor<<Singleton Abuse>> DarkRed
+BorderColor<<Singleton>> Red
+BorderColor<<Decorator>> Blue
+BorderThickness<<Singleton Abuse>> 5
+BorderThickness<<Singleton>> 1
+BorderThickness<<Decorator>> 1
 }
 abstract Beverage {
   # description : String
   + <init>() : void
-  + getDescription() : java.lang.String
+  + getDescription() : String
   + cost() : double
 }
 
-label " " as umlparser.CondimentDecoratorLabel
-umlparser.CondimentDecoratorLabel -[#red]-> CondimentDecorator : "Decorator"
+label " " as CondimentDecoratorLabel
+CondimentDecoratorLabel -[#blue]-> CondimentDecorator : "Decorator"
 abstract CondimentDecorator <<Decorator>> {
   + <init>() : void
-  + getDescription() : java.lang.String
+  + getDescription() : String
 }
 
 class Espresso {
@@ -36,30 +40,30 @@ class JCUTApplication {
   + main(java.lang.String[]) : void
 }
 
-label " " as umlparser.LoggerLabel
-umlparser.LoggerLabel -[#blue]-> Logger : "Singleton"
+label " " as LoggerLabel
+LoggerLabel -[#red]-> Logger : "Singleton"
 class Logger <<Singleton>> {
   - instance : Logger
   - <init>() : void
-  + getInstance() : umlparser.Logger
+  + getInstance() : Logger
   + log(java.lang.String) : void
 }
 
-label " " as umlparser.MilkLabel
-umlparser.MilkLabel -[#red]-> Milk : "Decorator"
+label " " as MilkLabel
+MilkLabel -[#blue]-> Milk : "Decorator"
 class Milk <<Decorator>> {
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
-  + getDescription() : java.lang.String
+  + getDescription() : String
   + cost() : double
 }
 
-label " " as umlparser.MochaLabel
-umlparser.MochaLabel -[#red]-> Mocha : "Decorator"
+label " " as MochaLabel
+MochaLabel -[#blue]-> Mocha : "Decorator"
 class Mocha <<Decorator>> {
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
-  + getDescription() : java.lang.String
+  + getDescription() : String
   + cost() : double
 }
 
@@ -68,9 +72,9 @@ class Order {
   - beverage : Beverage
   + <init>(int, umlparser.Beverage) : void
   + getOrderId() : int
-  + getBeverage() : umlparser.Beverage
+  + getBeverage() : Beverage
   + getCost() : double
-  + getDescription() : java.lang.String
+  + getDescription() : String
 }
 
 class OrderManager {
@@ -80,12 +84,12 @@ class OrderManager {
   + processOrders() : void
 }
 
-label " " as umlparser.SoyLabel
-umlparser.SoyLabel -[#red]-> Soy : "Decorator"
+label " " as SoyLabel
+SoyLabel -[#blue]-> Soy : "Decorator"
 class Soy <<Decorator>> {
   - beverage : Beverage
   + <init>(umlparser.Beverage) : void
-  + getDescription() : java.lang.String
+  + getDescription() : String
   + cost() : double
 }
 
