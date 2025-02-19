@@ -18,6 +18,8 @@ public class FieldNode {
     		this.access = "public";
     	} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
     		this.access = "protected";
+    	} else {
+    		this.access = "packagePrivate";
     	}
         
         if ((access & Opcodes.ACC_STATIC) != 0) {

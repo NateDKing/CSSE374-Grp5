@@ -168,10 +168,8 @@ public class ClassNode extends ClassVisitor {
     
     public boolean singletonAbuse() {
     	if (fields.size() == 1) {
-    		System.out.println("Good");
     		return true;
     	} else {
-    		System.out.println("Bad");
     		return false;
     	}
     }

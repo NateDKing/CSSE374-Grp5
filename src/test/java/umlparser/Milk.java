@@ -1,21 +1,11 @@
-package umlparser;
+//package DataSource;
 
-//Generated with ChatGPT, for purposes for testing.
+public class Milk extends OrderDecorator {
+	private static final String COMPONENT_NAME = "milk";
+	private static final boolean IS_OPTION = false; 
 
-public class Milk extends CondimentDecorator {
-    private Beverage beverage;
-    
-    public Milk(Beverage beverage) {
-        this.beverage = beverage;
-    }
-    
-    @Override
-    public String getDescription() {
-        return beverage.getDescription() + ", Milk";
-    }
-    
-    @Override
-    public double cost() {
-        return beverage.cost() + 0.10;
-    }
+	public Milk(OrderComponent son, int quantity) {
+		super(son, IS_OPTION, COMPONENT_NAME, quantity);
+		
+	}
 }

@@ -11,98 +11,169 @@ BorderThickness<<Singleton Abuse>> 5
 BorderThickness<<Singleton>> 1
 BorderThickness<<Decorator>> 1
 }
-abstract Beverage {
-  # description : String
+class AdvancedControllerContact {
   + <init>() : void
-  + getDescription() : String
-  + cost() : double
+  + sendOrder(umlparser.OrderComponent, int) : String
+  - createCommandJSON(umlparser.OrderComponent, int) : JSONObject
 }
 
-label " " as CondimentDecoratorLabel
-CondimentDecoratorLabel -[#blue]-> CondimentDecorator : "Decorator"
-abstract CondimentDecorator <<Decorator>> {
+class AppCommunicator {
+  ~ orderCreator : OrderCreator
+  ~ orderQueue : Queue<JSONObject>
   + <init>() : void
-  + getDescription() : String
+  + update(java.lang.String) : void
+  - notifyPhoneApp(java.lang.String) : JSONObject
+  + recieveMessageFromPhone(JSONObject) : void
+  + executeOrders() : void
 }
 
-class Espresso {
-  + <init>() : void
-  + cost() : double
+class BaseOrder {
+  - drinkName : String
+  - instructions : String
+  - address : String
+  + <init>(java.lang.String, java.lang.String, java.lang.String) : void
+  + getIngredients() : JSONObject
+  + getOptions() : JSONObject
+  + getInstructions() : String
+  + getDrinkName() : String
+  + getAddress() : String
 }
 
-class HouseBlend {
-  + <init>() : void
-  + cost() : double
+interface ControllerContactBehavior {
+  ~ <clinit>() : void
+  + sendOrder(umlparser.OrderComponent, int) : String
 }
 
-class JCUTApplication {
+class Cream {
+  - COMPONENT_NAME : String
+  - IS_OPTION : boolean
+  + <init>(umlparser.OrderComponent, int) : void
+}
+
+class DarkRoast {
+  - COMPONENT_NAME : String
+  - IS_OPTION : boolean
+  + <init>(umlparser.OrderComponent, int) : void
+}
+
+class DatabaseHandler {
+  ~ dbConnection : String
+  - SIMPLE : int
+  - ADVANCED : int
+  - PROGRAMMABLE : int
+  + <init>() : void
+  + getControllerTypeFromAddress(java.lang.String) : int
+  + getControllerIdFromAddress(java.lang.String) : int
+}
+
+class Main {
   + <init>() : void
   + main(java.lang.String[]) : void
 }
 
-label " " as LoggerLabel
-LoggerLabel -[#red]-> Logger : "Singleton"
-class Logger <<Singleton>> {
-  - instance : Logger
-  - <init>() : void
-  + getInstance() : Logger
-  + log(java.lang.String) : void
+class Milk {
+  - COMPONENT_NAME : String
+  - IS_OPTION : boolean
+  + <init>(umlparser.OrderComponent, int) : void
 }
 
-label " " as MilkLabel
-MilkLabel -[#blue]-> Milk : "Decorator"
-class Milk <<Decorator>> {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
-  + getDescription() : String
-  + cost() : double
+class Nutmeg {
+  - COMPONENT_NAME : String
+  - IS_OPTION : boolean
+  + <init>(umlparser.OrderComponent, int) : void
 }
 
-label " " as MochaLabel
-MochaLabel -[#blue]-> Mocha : "Decorator"
-class Mocha <<Decorator>> {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
-  + getDescription() : String
-  + cost() : double
+class NutraSweet {
+  - COMPONENT_NAME : String
+  - IS_OPTION : boolean
+  + <init>(umlparser.OrderComponent, int) : void
 }
 
-class Order {
-  - orderId : int
-  - beverage : Beverage
-  + <init>(int, umlparser.Beverage) : void
-  + getOrderId() : int
-  + getBeverage() : Beverage
-  + getCost() : double
-  + getDescription() : String
+interface OrderComponent {
+  ~ <clinit>() : void
+  + getIngredients() : JSONObject
+  + getOptions() : JSONObject
+  + getInstructions() : String
+  + getDrinkName() : String
+  + getAddress() : String
 }
 
-class OrderManager {
-  - orders : Order>
+class OrderCreator {
+  - observers : OrderObserver>
+  ~ myDB : DatabaseHandler
+  ~ orderFactory : OrderFactory
   + <init>() : void
-  + addOrder(umlparser.Order) : void
-  + processOrders() : void
+  ~ notifyObservers(java.lang.String) : void
+  + registerObserver(umlparser.OrderObserver) : void
+  + removeObserver(umlparser.OrderObserver) : void
+  + processOrder(JSONObject) : void
+  ~ createOrderFromJSON(JSONObject) : OrderComponent
 }
 
-label " " as SoyLabel
-SoyLabel -[#blue]-> Soy : "Decorator"
-class Soy <<Decorator>> {
-  - beverage : Beverage
-  + <init>(umlparser.Beverage) : void
-  + getDescription() : String
-  + cost() : double
+abstract OrderDecorator {
+  + isOption : boolean
+  # son : OrderComponent
+  # name : String
+  # quantity : int
+  + <init>(umlparser.OrderComponent, boolean, java.lang.String, int) : void
+  + getIngredients() : JSONObject
+  + getOptions() : JSONObject
+  + getInstructions() : String
+  + getDrinkName() : String
+  + getAddress() : String
 }
 
-CondimentDecorator --|>Beverage
-Espresso --|>Beverage
-HouseBlend --|>Beverage
-Logger --> "1" Logger
-Milk --|>CondimentDecorator
-Milk --> "1" Beverage
-Mocha --|>CondimentDecorator
-Mocha --> "1" Beverage
-Order --> "1" Beverage
-OrderManager --> "*" Order
-Soy --|>CondimentDecorator
-Soy --> "1" Beverage
+class OrderFactory {
+  + <init>() : void
+  + createDrink(java.lang.String, java.lang.String, java.util.HashMap) : OrderComponent
+  - addCondiment(java.lang.String, int, umlparser.OrderComponent) : OrderComponent
+  - addCondiments(java.util.HashMap, umlparser.OrderComponent) : OrderComponent
+}
+
+interface OrderObserver {
+  ~ <clinit>() : void
+  + update(java.lang.String) : void
+}
+
+class ProgrammableControllerContact {
+  + <init>() : void
+  + sendOrder(umlparser.OrderComponent, int) : String
+  - createCommandJSON(umlparser.OrderComponent, int) : JSONObject
+}
+
+class PumpkinSpice {
+  - isOption : boolean
+  - name : String
+  + <init>(umlparser.OrderComponent, int) : void
+}
+
+class SimpleControllerContact {
+  + <init>() : void
+  + sendOrder(umlparser.OrderComponent, int) : String
+  - createCommandJSON(umlparser.OrderComponent, int) : JSONObject
+}
+
+class Sugar {
+  - COMPONENT_NAME : String
+  - IS_OPTION : boolean
+  + <init>(umlparser.OrderComponent, int) : void
+}
+
+AdvancedControllerContact ..|>ControllerContactBehavior
+AppCommunicator ..|>OrderObserver
+AppCommunicator --> "1" OrderCreator
+BaseOrder ..|>OrderComponent
+Cream --|>OrderDecorator
+DarkRoast --|>OrderDecorator
+Milk --|>OrderDecorator
+Nutmeg --|>OrderDecorator
+NutraSweet --|>OrderDecorator
+OrderCreator --> "*" OrderObserver
+OrderCreator --> "1" OrderFactory
+OrderDecorator ..|>OrderComponent
+OrderDecorator --> "1" OrderComponent
+ProgrammableControllerContact ..|>ControllerContactBehavior
+PumpkinSpice --|>OrderDecorator
+SimpleControllerContact ..|>ControllerContactBehavior
+Sugar --|>OrderDecorator
 @enduml
