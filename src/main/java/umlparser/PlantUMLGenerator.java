@@ -68,7 +68,7 @@ public class PlantUMLGenerator {
 
 			List<String> params = method.getParameterTypes();
 			for (int i = 0; i < params.size(); i++) {
-				sb.append(params.get(i));
+				sb.append(cleanName(params.get(i)));
 				if (i < params.size() - 1) {
 					sb.append(", ");
 				}
