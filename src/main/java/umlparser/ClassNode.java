@@ -30,7 +30,7 @@ public class ClassNode extends ClassVisitor {
         String newSuperName = superName.toString().replace('/', '.');
         setSuperName(newSuperName);
         setClassType(access);
-        isDecorator();
+        setDecorator(getDecorator());
         super.visit(version, access, name, signature, superName, interfaces);
     }
 
@@ -149,16 +149,17 @@ public class ClassNode extends ClassVisitor {
     		}
     	}
     	
-		// - All Methods: public static
-    	boolean isPubStat = true;
+		// - A Method: public static w/ return type of self
+    	boolean isPubStat = false;
     	for (MethodNode methodNode : getMethods()) {
     		if (methodNode.getName().equals("<init>")) {
     			continue;
     		}
     		boolean isAccess = methodNode.getAccess().equals("public");
     		boolean isStatic = methodNode.getIsStatic();
-    		if (!isAccess || !isStatic) {
-    			isPubStat = false;
+    		boolean returnSelf = methodNode.getReturnType().equals(className);
+    		if (isAccess && isStatic && returnSelf) {
+    			isPubStat = true;
     			break;
     		}
     	}
@@ -173,22 +174,33 @@ public class ClassNode extends ClassVisitor {
     		return false;
     	}
     }
-    
-    public void isDecorator() {
-    	
-    	if (this.superName != null && this.classType == "abstract") {
-    		this.isDecorator = true;
-    	} else {
-    		this.isDecorator = false;
-    	}
-    }
 
     public boolean getDecorator() {
-    	return this.isDecorator;
+    	for(MethodNode methodNode : getMethods()) {
+    		if(methodNode.getName().equals("<init>")) {
+    			for(String param : methodNode.getParameterTypes()) {
+    				if(param.equals(superName)) {
+    					setDecorator(true);
+    					return true;
+    				}
+    				
+    				for(String intf : interfaces) {
+    					if(param.length() > 10 && param.substring(10).equals(intf)) {
+    						setDecorator(true);
+    						return true;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	setDecorator(false);
+    	return false;
     }
  
     
     public void setDecorator(Boolean b) {
-    	this.isDecorator = b;
+    	if(!isDecorator) {
+    		this.isDecorator = b;
+    	}
     }
 }

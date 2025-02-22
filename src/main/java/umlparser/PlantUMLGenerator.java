@@ -50,7 +50,7 @@ public class PlantUMLGenerator {
 			}
 		}
 
-		if (isDecorator) {
+		if (classInfo.getDecorator()) {
 			sb.append(" <<Decorator>>");
 		}
 
@@ -147,7 +147,7 @@ public class PlantUMLGenerator {
 			addedClasses.add(fieldClass);
 		}
 		Double depDec = (double) (dep/classes);
-		if (depDec >= 0.2) {
+		if (depDec >= 0.25) {
 			sb.append("note top of ").append(cleanName(classInfo.getClassName())).append(": OVERDEPENDENT\n");
 		}
 		

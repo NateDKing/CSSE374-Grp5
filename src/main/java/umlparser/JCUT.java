@@ -44,10 +44,20 @@ public class JCUT {
             	}
             	classNodes.add(classNode);
             }
-            
+            System.out.println(decorators.toString());
             for (ClassNode cn: classNodes) {
-            	if (decorators.contains(cn.getSuperName())) {
-            		cn.setDecorator(true);
+            	System.out.println(cn.getSuperName());
+//            	if (decorators.contains(cn.getSuperName())) {
+//            		cn.setDecorator(true);
+//            	}
+            	for(String dec : decorators) {
+//            		if(cn.getSuperName() != null) {
+//            			System.out.println(dec.toCharArray().length + " doesn't equal " + cn.getSuperName().toCharArray().length + "?");
+//            		}
+            		
+            		if(cn.getSuperName() != null && cn.getSuperName().toCharArray().equals(dec.toCharArray())) {
+            			cn.setDecorator(true);
+            		}
             	}
             	plantUMLGenerator.addClassNode(cn);
             }
