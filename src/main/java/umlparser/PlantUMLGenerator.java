@@ -34,7 +34,7 @@ public class PlantUMLGenerator {
 			sb.append(labelName + " -[#red]-> " + cleanName(classInfo.getClassName()) + " : \"Singleton\"\n");
 		}
 
-		if (isDecorator) {
+		if (classInfo.isDecorator()) {
 			String labelName = cleanName(classInfo.getClassName()) + "Label";
 			sb.append("label \" \" as " + labelName + "\n");
 			sb.append(labelName + " -[#blue]-> " + cleanName(classInfo.getClassName()) + " : \"Decorator\"\n");
@@ -50,7 +50,7 @@ public class PlantUMLGenerator {
 			}
 		}
 
-		if (classInfo.getDecorator()) {
+		if (classInfo.isDecorator()) {
 			sb.append(" <<Decorator>>");
 		}
 

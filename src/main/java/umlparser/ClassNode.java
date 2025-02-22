@@ -30,7 +30,6 @@ public class ClassNode extends ClassVisitor {
         String newSuperName = superName.toString().replace('/', '.');
         setSuperName(newSuperName);
         setClassType(access);
-        setDecorator(getDecorator());
         super.visit(version, access, name, signature, superName, interfaces);
     }
 
@@ -193,10 +192,13 @@ public class ClassNode extends ClassVisitor {
     			}
     		}
     	}
-    	setDecorator(false);
+    	// setDecorator(false);
     	return false;
+    } 
+    
+    public boolean isDecorator() {
+    	return this.isDecorator;
     }
- 
     
     public void setDecorator(Boolean b) {
     	if(!isDecorator) {
